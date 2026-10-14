@@ -32,6 +32,13 @@ public :
     int calcularamigosencomun (int idu1 , int idu2);
 
 
+    void mostrarmejoresamigos(int idusuarioactual);
+    void enviarsolicitudamistad(int idemisor, const char* usernamedestino);
+    void aceptarsolicitudespendientes(int idusuarioactual);
+    void visitarperfilamigo(int idusuarioactual, const char* usernameamigo, int indicealbum);
+    void mostrarsugerenciasamistad(int idusuarioactual, int k );
+
+
 
 
 };
