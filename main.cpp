@@ -13,7 +13,7 @@ int main()
     monitorrecursos::reiniciarinteracciones();
     red.cargardatosdesdearchivo();
 
-    monitorrecursos::mostrarmetricas;
+    monitorrecursos::mostrarmetricas();
 
 
 
@@ -32,11 +32,11 @@ int main()
     while (idusuariosesion==-1) {
 
         cout<<"nombre de usuario: "<<endl;
-        cin>>useringresado;
+        cin>>usernameingresado;
 
         idusuariosesion=red.buscaridporusername(usernameingresado);
 
-        if(iduserusuario==-1){
+        if(idusuariosesion==-1){
             cout<<"usuario no encontrado, vuelva a intentarlo"<<endl;
         }
     }
@@ -55,7 +55,7 @@ int main()
         cout<<"3. sugerencias"<<endl;
         cout<<"4. mensajes"<<endl;
         cout<<"5. cambiar foto de perfil de amigos"<<endl;
-        cout<<"6. salir";<<endl;
+        cout<<"6. salir"<<endl;
         
         cout<<"la opcion elegida fue"<<endl;
 
@@ -66,12 +66,12 @@ int main()
 
 
 //actualizacion o salida del programa
-        if(opcionmenu==5){
+        if(opcionmenu=='5'){
 
             cout<<"actualizar foto de perfil";
             continue;
         }
-        else if(opcionmenu==6){
+        else if(opcionmenu=='6'){
             break;
         }
 
@@ -85,18 +85,18 @@ int main()
             cin>>subop;
             cout<<"la opcion elegida fue: "<<subop<<endl;
 
-            monitorecursos::reiniciarinteracciones();//revisar bien esta la clase ya que la mia presento problemas
+            monitorrecursos::reiniciarinteracciones();//revisar bien esta la clase ya que la mia presento problemas
             if(subop==1){
                 char amigodestino[64];
                 cout<<"nombre a quien envia solicitud:";
-                cin>>amigosdestinos;
+                cin>>amigodestino;
                 red.enviarsolicitudamistad(idusuariosesion, amigodestino);
 
 
 
             }else if(subop==2){
 
-                red.aceptarsolicitudespendientes(idusuariosesion,);
+                red.aceptarsolicitudespendientes(idusuariosesion);
 
             }
 
@@ -158,14 +158,35 @@ int main()
                 red.leernuevosmensajes(idusuariosesion);
 
             }else if(subop==3) {
+                char finicio[11], ffin[11];
+                cout<< "fecha inicio: ";
+                cin>>finicio;
+                cout<<"fecha fin: ";
+                cin>>ffin;
+                red.buscarmensajesporrangofechas(idusuariosesion, finicio, ffin);
             }
 
+            break;
         }
 
-        }
+        default:
 
+            cout<<"opcion invalida"<<endl;
+            break;
+
+        }
 
     }
+
+    while(opcionmenu !='6' && opcionmenu != '5');
+
+    cout<<"guardar cambios"<<endl;
+
+    red.guardardatosenarchivos();
+    cout<<"sesion cerrada";
+
+
+
 
 
 
