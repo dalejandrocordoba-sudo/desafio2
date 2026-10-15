@@ -134,9 +134,86 @@ void redsocial::guardarsolicitudesenarchivo() {
     fsol.close();
 }
 
+void redsocial ::cargardatosdesdearchivos() {
+
+    ifstream fuser("usuarios.txt");
+    if (fuser.is_open()) {
+        char u[64], em[128], fn[11], fot[256], ciu[64], pa[64];
+        while (fuser.getline(u,64, ',')){
+            fuser.getline(em,128,',');
+            fuser.getline(fn,11,',');
+            fuser.getline(fot,256,',');
+            fuser.getline(ciu,64,',');
+            fuser.getline(pa,64,'\n');
+
+            usuario userobj(u, em,fn,for,ciu,pa);
+            registrarusuario(userobj);
+        }
+        fuser.close();
+    }
+}
+
+ifstream frel ("relaciones.txt");
+if (frel.is_open()) {
+    char u1[64], u2[64];
+    while (frel.getline(ui,64,',')) {
+        frel.getline(u2,64,'\n');
+        int id1 = buscaridporusername(u1);
+        int id2 = buscaridporusername(u2);
+        if (id1 != -1 && id2 != -1) {
+            estableceramistad(id1, id2);
+        }
+    }
+    frel.close();
+}
+
+ifstream falb ("albumes.txt");
+if (falb.is_open()) {
+    char owner[64], nomalb[64], rstorage[256], privstr[10];
+    char rfoto [256], ffoto[11], tamstr [15], likesstr[15];
+
+    while (falb.getline(owner,64,',')) {
+        falb.getline(nomalb, 64, ',');
+        falb.getline(rstorage,256,',');
+        falb.getline(privstr,10,',');
+        falb.getline(rfoto,256,',');
+        falb.getline(ffoto,11,',');
+        falb.getline(tamsr,15,'\n');
+
+        int idowner = buscaridporusername(owner);
+        if (idower !=-1) {
+            usuario& user = usuarios[idowner];
+            int priv = atoi(privstr);
+
+            int idxalbum =-1;
+            for (int a =0; a< user.getalbumes().gettamaño(); ++a) {
+                if (strcmp(user.getlalbumes()[a].getnombre(),nomalb)== 0) {
+                    idxalbum = a;
+                    break;
+                }
+            }
+            if (idxalbum == -1) {
+                album nuevoalbum ( nomalb,rstorage,priv);
+                user.agregaralbum(nuevoalbum);
+                idxalbum = user.getalbumes().gettamaño()-1;
+            }
+            if (strlen(rfoto)>0) {
+                foto fotoobj(rfoto,ffoto, (unsigned int) atoi(tamstr));
+                fotoobj.setlikes((unsigned int) atoi(likesstr));
+                user.getalbumes()[idxalbum].agregarfoto(fotoobj);
+            }
+
+        }
 
 
 
+    }
+    falb.close();
+}
+ifstream fnsg("mensajes.txt");
+if (fmsg.is_open()){
+    char
+}
 
 
 

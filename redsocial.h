@@ -23,7 +23,7 @@ public :
 
     void cargarsolicitudesdesdearchivo();
     void guardardatosdesdearchivo();
-    void cargardatosenarchivos();
+    void cargardatosdesdearchivos();
     void guardarsolicitudesenarchivo();
 
 
