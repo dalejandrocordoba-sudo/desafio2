@@ -7,7 +7,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(desafio2 main.cpp
     monitorderecursos.h
-    monitorderecursos.cpp)
+    monitorderecursos.cpp
+    foto.h
+    foto.cpp)
 
 include(GNUInstallDirs)
 install(TARGETS desafio2
