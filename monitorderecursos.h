@@ -13,10 +13,10 @@ private:
 public:
     static void reiniciariteraciones();
     static void registrariteracion(unsigned long long cantidad = 1);
-    static void registrarasignacion(unsigned bytes);
+    static void registrarasignacion(unsigned long bytes);
     static void registrarliberacion(unsigned long bytes);
-    static unsigned getiteraciones();
-    static unsigned getmemoriabytes();
+    static unsigned long long getiteraciones();
+    static unsigned long getmemoriabytes();
     static void mostrarmetricas(const char* nombrefuncionalidad);
     //monitorderecurso() {}
 };
