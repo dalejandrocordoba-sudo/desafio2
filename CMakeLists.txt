@@ -9,7 +9,9 @@ add_executable(desafio2 main.cpp
     redsocial.h
     redsocial.cpp)
     monitorderecursos.h
-    monitorderecursos.cpp)
+    monitorderecursos.cpp
+    foto.h
+    foto.cpp)
 
 include(GNUInstallDirs)
 install(TARGETS desafio2
