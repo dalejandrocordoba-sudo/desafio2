@@ -10,11 +10,11 @@ redsocial ::redsocial() {
     totalusuarios =0;
     capacidadusuarios = 10;
     matrizadyacencia= new int*[capacidadusuarios];
-    monitorrecursos::registrarasignacion(sizeof(int*)*capacidadusuarios);
+    monitorderecurso::registrarasignacion(sizeof(int*)*capacidadusuarios);
 
     for (int i=0; i < capacidadusuarios; ++i){
         matrizadyacencia[i] = new int [capacidadusuarios];
-        monitorrecursos::registrarasignacion(sizeof (int)* capacidadusuarios);
+        monitorderecurso::registrarasignacion(sizeof (int)* capacidadusuarios);
         for(int j=0; j< capacidadusuarios; ++j){
             matrizadyacencia[i][j]=0;
 
@@ -25,10 +25,10 @@ redsocial ::redsocial() {
 redsocial ::~redsocial() {
 
     for (int i = 0; i< capacidadusuarios; ++i){
-        monitorrecursos :: registrarliberacion(sizeof(int)* capacidadusuarios)
+        monitorderecurso :: registrarliberacion(sizeof(int)* capacidadusuarios)
         delate matrizadyacencia[i];
     }
-    monitorrecursos::registrarliberacion(sizeof(int)* capacidadusuarios);
+    monitorderecurso::registrarliberacion(sizeof(int)* capacidadusuarios);
     delate [] matrizadyacencia;
 
 }
@@ -36,24 +36,24 @@ redsocial ::~redsocial() {
 void redsocial::redimencionarmatriz (int nuevacapacidad) {
 
     int ** nuevamatriz = new int*[nuevacapacidad];
-    monitorrecusos ::registrarasignacion (sizeof (int*)* nuevacapacidad)
+    monitorderecurso ::registrarasignacion (sizeof (int*)* nuevacapacidad)
         for (int i=0; i < nuevacapacidad; ++i){
         nuevamatriz [i]= new int [nuevacapacidad];
         for (int j=0; j< nuevacapacidad;++j){
             if( i < totalusuarios && j < totalusuarios){
                 nuevamatriz[i][j] = matrizadyacente[i][j];
             }else {
-                nuevamatriz[i][j];=0;              
+                nuevamatriz[i][j] =0;
             }
         }
     }
     
-    for (int i = 0; < capacidadusuarios;++i){
-        monitorrecursos::registrarliberacion (sizeof (int )* capacidadusuarios;
+    for (int i = 0; i < capacidadusuarios;++i){
+        monitorderecurso::registrarliberacion (sizeof (int )* capacidadusuarios;
     delete[] matrizadyacencia [i];
 
     }
-    monitorrecursos::registrarliberacion (sizeof(int*)* capacidadusuarios);
+    monitorderecurso::registrarliberacion (sizeof(int*)* capacidadusuarios);
     delete[] matrizadyacencia;
 
     matrizadyacencia = nuevamatriz;
@@ -63,7 +63,7 @@ void redsocial::redimencionarmatriz (int nuevacapacidad) {
 int redsocial::buscaridporusername (const char* username) const {
 
     for (int i = 0; i < usuarios.gettamaño(); ++i){
-        monitorrecursos::registrariteracion();
+        monitorderecurso::registrariteracion();
 
         if (strcmp(usuarios[i].getusername(), username) ==0){
             return i;
@@ -99,7 +99,7 @@ bool redsocial::sonamigos(int idu1,int idu2) const {
 int redsocial:: calcularamigosencomun(int idu1,int idu2) {
     int contador= 0;
     for (int k = 0; k < totalusuarios; ++k) {
-        monitorrecursos::registarinteraccion();
+        monitorderecurso::registarinteraccion();
         if(matrizadyacencia[idu1][k]== 1 && matrizadyacencia[idu2][k]== 1){
             contador++;
         }
@@ -107,11 +107,47 @@ int redsocial:: calcularamigosencomun(int idu1,int idu2) {
     return contador;
 }
 
+void redsocial::cargarsolicitudesdesdearchivo(){
+    ifstream fsol ("solicitudes.txt");
+        if(!fsol.is_open()) return;
+
+    int idemisor , idreceptor;
+    while (fsol>> idemisor >> idreceptor) {
+        if (idreceptor >= 0 && idreceptor < usuarios.gettamaño()) {
+            usuarios [idreceptor].recibirsolicitud(idemisor);
+        }
+    }
+    fsol.close();
+}
+
+void redsocial::guardarsolicitudesenarchivo() {
+    ofstream fsol("solicitudes.txt", ios::trunc);
+    if(!fsol.is_open()) return;
+
+    for (int i = 0; i < usuarios.gettamaño(); ++i) {
+        listaenteros& pendientes = usuarios[i].getsolicitudespendientes();
+        for (int j = 0; j < pendientes.gettamaño(); ++j) {
+            int idemisor = pendientes[j];
+            fsol << idemisor << " " << i << "\n";
+        }
+    }
+    fsol.close();
+}
+
+
+
+
+
+
+
+
+
+
 void redsocial::mostrarmejoresamigos(int idusuarioactual) {
     cout <<"\n mejores amigos (fotos de perfil) \n";
     int amigosencontrados = 0;
     for (int i = 0; i < totalusuarios; ++i){
-        monitorrecursos::registrariteracion() ;
+        monitorderecurso::registrariteracion() ;
         if ( i != idusuarioactual && sonamigos(idusuarioactual, i)) {
             cout<< "foto perfil de amigo " << (amigosencontrados + 1 ) << ":"
                  << usuarios[i].getfotoperfil() << "\n";
@@ -151,7 +187,7 @@ void redsocial::aceptarsolicitudpendientes(int idusuarioactual){
     }
     cout << "solicitudes de amistad pendientes:\n";
     for (int i= 0; i < pendientes.gettamaño(); ++i) {
-        monitorrecursos::registrariteracion();
+        monitorderecurso::registrariteracion();
         int idsolicitante = pendientes[i];
         cout << (i+1) << ". " << usuarios[idsolicitante].getusername() << "\n";
 
@@ -161,10 +197,14 @@ void redsocial::aceptarsolicitudpendientes(int idusuarioactual){
     cin >> seleccion;
     if (seleccion> 0 && seleccion<= pendientes.gettamaño()) {
         estableceramistad(idusuarioactual, idaceptado);
-        cout << "ahora eres amigo de " << usuarios[idaceptado].getusername() <<"!\n";
+        pendientes.eliminaren(seleccion-1);
+        guardarsolicitudesenarchivo();
+        guardardatosenarchivos();
 
+        cout<< "ahora eres amigo de" << usuarios[idaceptado].getusername()<< "\n";
     }
 }
+
 
 
 

@@ -7,9 +7,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(desafio2 main.cpp
     redsocial.h
-    redsocial.cpp)
+    redsocial.cpp
     monitorderecursos.h
-    monitorderecursos.cpp)
+    monitorderecursos.cpp
+)
 
 include(GNUInstallDirs)
 install(TARGETS desafio2
