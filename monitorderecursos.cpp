@@ -13,7 +13,7 @@ void monitorderecurso::registrariteracion(unsigned long long cantidad){
     contadorinteraciones+= cantidad;
 }
 
-void monitorderecurso::registrarasignacion(unsigned int bytes){
+void monitorderecurso::registrarasignacion(unsigned long bytes){
 
     memoriaconsumidabytes +=bytes;
 }
