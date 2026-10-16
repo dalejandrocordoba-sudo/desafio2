@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
+#include <fstream>
 
 using namespace std;
 
@@ -460,6 +461,64 @@ void redsocial::navegarcarruselalbum(int idusuarioactual, const char * usernamea
     }while (opcion != 'S' && opcion != 's');
 
     monitorrecursos::mostrarmetricas("visitar perfil de amigo");
+}
+
+void redsocial::mostrarsugerenciaamistad(int idusuarioactual,int k ) {
+    monitorrecursos::reiniciariteraciones();
+
+    int* candidatosids = new int [totalusuarios];
+    int* coincidenciascore = new int[totalusuarios];
+    monitorrecuros::registrarasignacion(sizeof(int)*totalusuarios * 2);
+    int numcantidadatos = 0;
+
+    for (int i = 0; i < totalusuarios; ++i) {
+        monitorrecursos::registrariteracion();
+        if(i != idusuariioactual && !sonamigos(idusuarioactual, i)) {
+            int score = calcularamigosencomun(idusuarioactual, i);
+            if(score> 0) {
+                candidatosids[numcandidatos] = i;
+                coincidenciascore[numcandidatos] = score;
+                numcandidatos++;
+            }
+        }
+    }
+
+    for (int i=0; i< numcandidaros - 1;++i) {
+        for(int j = i + 1; j < numcandidatos; ++j) {
+            monitorrecursos::registrariteracion();
+            if(coincidenciascore[j]>coincidenciascore[i]) {
+                int tempscore = coincidenciascore[i];
+                coincidenciascore[i] = coincidenciascore[j];
+                coincidenciascore[j] = tempscore;
+
+                int tempid = candidatosids[i];
+                candidatosids[i] = candidatosids[j];
+                candidatosids[j] = tempid;
+            }
+        }
+    }
+
+    cout << k << "sugerencias de amistad ";
+    int limite = (numcandidatos < k) ? numcandidatos : k;
+    for ( int i = 0; i < limite ; ++i) {
+        cout << i +1 << ". " << usuarios[candidatosids[i]].getusername()
+             << "(" << coincidenciascore[i]<< "amigos en comen)";
+
+
+        if (limite == 0) {
+            cout << "no hay sugerencias de amistad para mostrar en este momento "
+        }
+
+
+
+
+    }
+
+
+
+
+
+
 }
 
 
