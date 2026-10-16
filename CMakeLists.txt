@@ -9,7 +9,9 @@ add_executable(desafio2 main.cpp
     monitorderecursos.h
     monitorderecursos.cpp
     foto.h
-    foto.cpp)
+    foto.cpp
+    album.h
+    album.cpp)
 
 include(GNUInstallDirs)
 install(TARGETS desafio2
