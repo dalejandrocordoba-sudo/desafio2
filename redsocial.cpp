@@ -151,7 +151,7 @@ void redsocial ::cargardatosdesdearchivos() {
         }
         fuser.close();
     }
-}
+
 
 ifstream frel ("relaciones.txt");
 if (frel.is_open()) {
@@ -210,14 +210,110 @@ if (falb.is_open()) {
     }
     falb.close();
 }
-ifstream fnsg("mensajes.txt");
+
+
+
+ifstream fmsg("mensajes.txt");
 if (fmsg.is_open()){
-    char
+    char emisor[64], receptor [64],txt[513],fec[20],leidostr[5];
+    while (fmsg.getline(emisor,64,',')){
+        fmsg.getline(receptor,64,',');
+        fmsg.getline(txt,513,',');
+        fmsg.getline(fec,20,',');
+        fmsg.getline(leidostr,5,'\n');
+
+        int ide = buscaridporusername(emisor);
+        int idr = buscaridporusername(receptor);
+        if (ide != -1 && idr != -1) {
+            mensaje m(emisor,receptor,txt,fec);
+            if (atoi(leidostr)==1){
+                m.marcarleido();
+            }
+            usuarios[ide].enviarmensaje(m);
+            usuarios[idr].recibirmensaje(m);
+        }
+    }
+    fmsg.close();
+}
+cargarsolicitudesdesdearchivo();
 }
 
 
+void redsocial::guardardatosenarchivo() {
+    ofstream fuser("usuarios.txt");
+    if (fuser.is_open()) {
+        for (int i = 0 ; i < usuarios.gettamaño();++i) {
+            fuser << usuarios [i].getusername()<< ","
+                  << usuarios[i].getemail()<< ","
+                  << usuarios[i].getfechanacimiento()<< ","
+                  << usuarios[i].getfotoperfil()<<","
+                  << usuarios[i].getciudad()<<","
+                  << usuarios[i].getpais()<< "\n";
+        }
+        fuser.close();
+    }
 
+    ofstream frel("relaciones.txt");
+    if (frel.is_open()) {
+        for (int i = 0; i< totalucuarios; ++i) {
+            for (j = i +1; j< totalusuarios; ++j) {
+                if (matrizadyacencia [i][j] == 1) {
+                    frel << usuarios[i].getusername()<< ",";
+                         << usuario[j].getusername() << "\n";
+                }
+            }
+        }
+        frel.close;
+    }
 
+    ofstream falb("albumes.txt");
+    if (falb.is_open()) {
+        for (int i = 0; i < usuarios.gettanalo(); ++i) {
+            listaalbumes& alblist = usuarios[i].getalbumes();
+            for (int a = 0; a< alblist.gettamaño(); ++a) {
+                album& alb = alblist[a];
+                listafotos& ftlist = alb.getfotos();
+                if(ftlist.gettamaño() ==0) {
+                    falb << alb.getnombre() << ","
+                         << alb.getrutastorage() << ","
+                         << alb.getprivacidad()<< ",,,0,0\n";
+                    else {
+                        for (int f = 0; f< flist.gettamaño(); ++f) {
+                            foto& ft=ftlist[f];
+                            falb << usuarios[i].getusername() <<","
+                                 << alb.getnombre()<< ","
+                                 << alb.getrutastorage() << ","
+                                 << alb.getprivacidad()<< ","
+                                 << ft.getruta()<<","
+                                 << ft.getfecha()<<","
+                                 << ft.gettamañobytes()<<","
+                                 <<ft.getlikes()<<"\n";
+
+                        }
+                    }
+                }
+
+            }
+            falb.close();
+        }
+        ofstream fmsg("mensajes.txt");
+        if (fmsg.is_open()){
+            for (int i = 0; i < usuarios.gettamaño();++i){
+                listamensajes& msglist =usuarios[i].getmensajesenviados();
+                for(int m= 0; m< msglist.gettamaño(); ++m){
+                    mensaje& msg = msglist[m];
+                    fmsg<< msg.getemisor()<<","
+                         << msg.getreceptor()<<","
+                         << msg.getcontenido() << ","
+                         << msg.getfechaenvio() << ","
+                         << (msg.isleido() ? 1 : 0)<< "\n";
+
+                }
+            }
+            fmsg.close;
+        }
+        guardarsolicitudesenarchivo();
+    }
 
 
 void redsocial::mostrarmejoresamigos(int idusuarioactual) {
