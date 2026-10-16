@@ -13,7 +13,11 @@ add_executable(desafio2 main.cpp
     foto.h
     foto.cpp
     album.h
-    album.cpp)
+    album.cpp
+    listausuarios.h
+    listausuarios.cpp
+    usuario.h
+    usuario.cpp)
 
 include(GNUInstallDirs)
 install(TARGETS desafio2

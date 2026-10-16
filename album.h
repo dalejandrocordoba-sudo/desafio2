@@ -23,7 +23,7 @@ public:
 
 
 album(const album& otro);
-album& operador=(const album& otro);
+album& operator=(const album& otro);
 
 
 
