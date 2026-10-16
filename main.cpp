@@ -10,15 +10,19 @@ int main()
     cout << "inicio desafio2" << endl;
     redsocial red;
 
-    monitorrecursos::reiniciarinteracciones();
+    monitorderecurso::reiniciarinteracciones();
     red.cargardatosdesdearchivo();
+    monitorderecurso::mostrarmetricas();
 
-    monitorrecursos::mostrarmetricas();
+
 
 
 
     char usernameingresado[64];
     int idusuariosesion=-1;
+    int opcionacceso =0;
+
+
 
 
 
@@ -27,19 +31,71 @@ int main()
 
 
     /* este ciclo nos va a servir para cada vez que falle el usuario y contraseña
-       pueda volverloa intentar
+       pueda volverloa intentar y tambien hacer registro
      */
     while (idusuariosesion==-1) {
 
-        cout<<"nombre de usuario: "<<endl;
-        cin>>usernameingresado;
+
+        //primera parte pare el inicio de sesion
+
+        cout<<"1. iniciar sesion";<<endl;
+        cout<<"2. registro de usuario";<<endl;
+        cout<<"3. salir";<<endl;
+        cin>>opcionacceso;
+        cout<<"la opcion seleccionada fue: "<<opcionacceso<<endl;
+
+
+        if(opcionacceso==1){
+            cout<<"nombre de usuario: ";
+            cin>>usernameingresado;
+            //}
 
         idusuariosesion=red.buscaridporusername(usernameingresado);
 
         if(idusuariosesion==-1){
             cout<<"usuario no encontrado, vuelva a intentarlo"<<endl;
+        }else{
+            cout<<"inicio exitoso"<<endl;
         }
     }
+
+        else if(opcionacceso==2){
+
+        char email[128];
+        char fotoperfil[256];
+
+        cout<<"registrar nuevo usuario"<<endl;
+        cout<<"ingresa un nombre de usiario: ";
+        cin>>usernameingresado;
+
+        if (red.buscaridporusername(usernameingresado) != -1){
+            cout<<"error en nombre de usuario "<<usernameingresado<<" ya existe"<<endl;
+
+        }else {
+            cout<<"ingresa un correo electronico: ";
+            cin>>email;
+            cout<<"ingresa foto de perfil o ruta";
+            cin>>fotoperfil;
+
+            usuario nuevousiario(usernameingresado, email, fotoperfil);
+            red.registrarusuario(nuevousiario);
+
+            idusuariosesion= red.buscaridporusername(usernameingresado);
+
+            cout<<"usuario registrado";
+        }
+
+    }
+
+    else if(opcionacceso==3){
+        cout<<"fin de la sesion"<<endl;
+        return 0;
+    }else{
+        cout<<"opcion no valida, intente nuevamente"<<endl;
+    }
+
+
+
 
     //desde aqui empienza la parte de opciones
     char opcionmenu='0';
