@@ -12,7 +12,6 @@ add_executable(desafio2 main.cpp
     monitorderecursos.cpp
     foto.h
     foto.cpp
-    foto.cpp
     album.h
     album.cpp)
 
