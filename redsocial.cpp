@@ -360,7 +360,7 @@ void redsocial::aceptarsolicitudpendientes(int idusuarioactual){
     }
     cout << "solicitudes de amistad pendientes:\n";
     for (int i= 0; i < pendientes.gettamaño(); ++i) {
-        monitorderecurso::registrariteracion();
+        monitorderecursos::registrariteracion();
         int idsolicitante = pendientes[i];
         cout << (i+1) << ". " << usuarios[idsolicitante].getusername() << "\n";
 
@@ -377,6 +377,91 @@ void redsocial::aceptarsolicitudpendientes(int idusuarioactual){
         cout<< "ahora eres amigo de" << usuarios[idaceptado].getusername()<< "\n";
     }
 }
+
+void redsocial ::visitarperfilamigo(int idusuarioactual, const char* usernameamigo) {
+    monitorrecursos::reiniciarinteraciones();
+    if(idamigo == -1 || !sonamigos(idusuarioactual,idamigo)) {
+        cout << "error: el usuario no existe o no es tu amigo.";
+        monitorrecursos::mostrarmetricas("visitar perfil de amigo");
+        return;
+    }
+
+    usuario& amigo = usuarios[idamigo];
+    listaalbumes& albumes = amigo.getalbumes();
+    if (albumes.gettamaño() == 0 ) {
+        cout << "el usuario no tiene albumes disponibles."
+            monitorrecursos::mostrarmetricas ("visitar perfil de amigo");
+        return;
+    }
+    cout << "albumes de "<< amigo.getusername() << ":";
+    for (int i = 0 ; i < albumes.gettamaño(); ++i) {
+        monitorrecuros::registrariteracion();
+        cout << (i+1)<< ". "<< albumes[i].getnombre();
+        if (albumes[i].getprivacidad() == 0 ) cout << "(publico)";
+        else if (albumes[i].getprivacidad() == 2 ) cout << "(amigos)";
+        else cout << "(privado)";
+        }
+
+    cout << "seleccione el numero de album a explorar (0 para salir ): ";
+        int sel;
+        cin >> sel;
+        if(sel> 0 && sel <= albumes.gettamaño()) {
+            navegarcarruselalbum(idusuarioactual,usernameamigo, sel - 1);
+        }else {
+            monitorrecursos::mostrarmetricas ("visitar perfil de amigo");
+        }
+}
+
+void redsocial::navegarcarruselalbum(int idusuarioactual, const char * usernameamigo,int indicealbum){
+    int idamigo = buscaridusename(usernameamigo);
+    if (idamigo== -1 || !sonamigos(idusuarioactual,idamigo)) {
+        cout << "error: el usuario no existe o no es su amigo.";
+        return;
+    }
+    usuario& amigo = usuarios[idamigo];
+    album& album = amigo.getalbumes() [indicealbum];
+
+    if (album.getalbumes() == 1) {
+        cout<< "el album es privado.";
+        monitorrecursos::mostrarmetricas("visitar perfil de amigo");
+        retutn;
+    }
+
+    listafotos& fotos = album.getfotos();
+    if (fotos.gettamaño)() ==0) {
+            cout << "el album esta vacion.";
+            monitorrecursos:: mostrarmetricas("visitar perfil de amigo");
+            return;
+        }
+    int idxfotoactual= 0;
+    char opcional;
+
+    do{
+        foto& fotoactual = fotos[idxfotoactual];
+        cour << "album: " << album.getnombre() << ;
+        cout << "foto ("<< fotoactual.getlikes()<< ;
+        << fotoactual.getruta() << ;
+        cout << likes: << fotoactual.getlikes() << ;
+        cout << "[n] siguiente | [p] previa | [l] dar like | [s] salir";
+        cout << "opcion: ";
+        cion >> opcion;
+
+        monitorrecurosos::registrariteracion():
+
+            if (opcion == 'N' || opcion == 'n') {
+            idxfotoactual = (idxfotoactual + 1) % fotos.gettamaño();
+        } else if (opcion == 'P'|| opcion == 'p'){
+                idxfotoactual = (idxfotoactual == 0 ) ? fotos.gettamaño() -1 : idxfotoactual-1;
+        } else if (opcion == 'L' || opcion == 'l') {
+            foto actual.darlike();
+            cout << "le diste like a la foto "
+        }
+
+    }while (opcion != 'S' && opcion != 's');
+
+    monitorrecursos::mostrarmetricas("visitar perfil de amigo");
+}
+
 
 
 
