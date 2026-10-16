@@ -10,11 +10,11 @@ redsocial ::redsocial() {
     totalusuarios =0;
     capacidadusuarios = 10;
     matrizadyacencia= new int*[capacidadusuarios];
-    monitorrecursos::registrarasignacion(sizeof(int*)*capacidadusuarios);
+    monitorderecurso::registrarasignacion(sizeof(int*)*capacidadusuarios);
 
     for (int i=0; i < capacidadusuarios; ++i){
         matrizadyacencia[i] = new int [capacidadusuarios];
-        monitorrecursos::registrarasignacion(sizeof (int)* capacidadusuarios);
+        monitorderecurso::registrarasignacion(sizeof (int)* capacidadusuarios);
         for(int j=0; j< capacidadusuarios; ++j){
             matrizadyacencia[i][j]=0;
 
@@ -25,10 +25,10 @@ redsocial ::redsocial() {
 redsocial ::~redsocial() {
 
     for (int i = 0; i< capacidadusuarios; ++i){
-        monitorrecursos :: registrarliberacion(sizeof(int)* capacidadusuarios)
+        monitorderecurso :: registrarliberacion(sizeof(int)* capacidadusuarios)
         delate matrizadyacencia[i];
     }
-    monitorrecursos::registrarliberacion(sizeof(int)* capacidadusuarios);
+    monitorderecurso::registrarliberacion(sizeof(int)* capacidadusuarios);
     delate [] matrizadyacencia;
 
 }
@@ -36,24 +36,24 @@ redsocial ::~redsocial() {
 void redsocial::redimencionarmatriz (int nuevacapacidad) {
 
     int ** nuevamatriz = new int*[nuevacapacidad];
-    monitorrecusos ::registrarasignacion (sizeof (int*)* nuevacapacidad)
+    monitorderecurso ::registrarasignacion (sizeof (int*)* nuevacapacidad)
         for (int i=0; i < nuevacapacidad; ++i){
         nuevamatriz [i]= new int [nuevacapacidad];
         for (int j=0; j< nuevacapacidad;++j){
             if( i < totalusuarios && j < totalusuarios){
                 nuevamatriz[i][j] = matrizadyacente[i][j];
             }else {
-                nuevamatriz[i][j];=0;              
+                nuevamatriz[i][j] =0;
             }
         }
     }
     
-    for (int i = 0; < capacidadusuarios;++i){
-        monitorrecursos::registrarliberacion (sizeof (int )* capacidadusuarios;
+    for (int i = 0; i < capacidadusuarios;++i){
+        monitorderecurso::registrarliberacion (sizeof (int )* capacidadusuarios;
     delete[] matrizadyacencia [i];
 
     }
-    monitorrecursos::registrarliberacion (sizeof(int*)* capacidadusuarios);
+    monitorderecurso::registrarliberacion (sizeof(int*)* capacidadusuarios);
     delete[] matrizadyacencia;
 
     matrizadyacencia = nuevamatriz;
@@ -63,7 +63,7 @@ void redsocial::redimencionarmatriz (int nuevacapacidad) {
 int redsocial::buscaridporusername (const char* username) const {
 
     for (int i = 0; i < usuarios.gettamaño(); ++i){
-        monitorrecursos::registrariteracion();
+        monitorderecurso::registrariteracion();
 
         if (strcmp(usuarios[i].getusername(), username) ==0){
             return i;
@@ -99,7 +99,7 @@ bool redsocial::sonamigos(int idu1,int idu2) const {
 int redsocial:: calcularamigosencomun(int idu1,int idu2) {
     int contador= 0;
     for (int k = 0; k < totalusuarios; ++k) {
-        monitorrecursos::registarinteraccion();
+        monitorderecurso::registarinteraccion();
         if(matrizadyacencia[idu1][k]== 1 && matrizadyacencia[idu2][k]== 1){
             contador++;
         }
@@ -107,11 +107,220 @@ int redsocial:: calcularamigosencomun(int idu1,int idu2) {
     return contador;
 }
 
+void redsocial::cargarsolicitudesdesdearchivo(){
+    ifstream fsol ("solicitudes.txt");
+        if(!fsol.is_open()) return;
+
+    int idemisor , idreceptor;
+    while (fsol>> idemisor >> idreceptor) {
+        if (idreceptor >= 0 && idreceptor < usuarios.gettamaño()) {
+            usuarios [idreceptor].recibirsolicitud(idemisor);
+        }
+    }
+    fsol.close();
+}
+
+void redsocial::guardarsolicitudesenarchivo() {
+    ofstream fsol("solicitudes.txt", ios::trunc);
+    if(!fsol.is_open()) return;
+
+    for (int i = 0; i < usuarios.gettamaño(); ++i) {
+        listaenteros& pendientes = usuarios[i].getsolicitudespendientes();
+        for (int j = 0; j < pendientes.gettamaño(); ++j) {
+            int idemisor = pendientes[j];
+            fsol << idemisor << " " << i << "\n";
+        }
+    }
+    fsol.close();
+}
+
+void redsocial ::cargardatosdesdearchivos() {
+
+    ifstream fuser("usuarios.txt");
+    if (fuser.is_open()) {
+        char u[64], em[128], fn[11], fot[256], ciu[64], pa[64];
+        while (fuser.getline(u,64, ',')){
+            fuser.getline(em,128,',');
+            fuser.getline(fn,11,',');
+            fuser.getline(fot,256,',');
+            fuser.getline(ciu,64,',');
+            fuser.getline(pa,64,'\n');
+
+            usuario userobj(u, em,fn,for,ciu,pa);
+            registrarusuario(userobj);
+        }
+        fuser.close();
+    }
+
+
+ifstream frel ("relaciones.txt");
+if (frel.is_open()) {
+    char u1[64], u2[64];
+    while (frel.getline(ui,64,',')) {
+        frel.getline(u2,64,'\n');
+        int id1 = buscaridporusername(u1);
+        int id2 = buscaridporusername(u2);
+        if (id1 != -1 && id2 != -1) {
+            estableceramistad(id1, id2);
+        }
+    }
+    frel.close();
+}
+
+ifstream falb ("albumes.txt");
+if (falb.is_open()) {
+    char owner[64], nomalb[64], rstorage[256], privstr[10];
+    char rfoto [256], ffoto[11], tamstr [15], likesstr[15];
+
+    while (falb.getline(owner,64,',')) {
+        falb.getline(nomalb, 64, ',');
+        falb.getline(rstorage,256,',');
+        falb.getline(privstr,10,',');
+        falb.getline(rfoto,256,',');
+        falb.getline(ffoto,11,',');
+        falb.getline(tamsr,15,'\n');
+
+        int idowner = buscaridporusername(owner);
+        if (idower !=-1) {
+            usuario& user = usuarios[idowner];
+            int priv = atoi(privstr);
+
+            int idxalbum =-1;
+            for (int a =0; a< user.getalbumes().gettamaño(); ++a) {
+                if (strcmp(user.getlalbumes()[a].getnombre(),nomalb)== 0) {
+                    idxalbum = a;
+                    break;
+                }
+            }
+            if (idxalbum == -1) {
+                album nuevoalbum ( nomalb,rstorage,priv);
+                user.agregaralbum(nuevoalbum);
+                idxalbum = user.getalbumes().gettamaño()-1;
+            }
+            if (strlen(rfoto)>0) {
+                foto fotoobj(rfoto,ffoto, (unsigned int) atoi(tamstr));
+                fotoobj.setlikes((unsigned int) atoi(likesstr));
+                user.getalbumes()[idxalbum].agregarfoto(fotoobj);
+            }
+
+        }
+
+
+
+    }
+    falb.close();
+}
+
+
+
+ifstream fmsg("mensajes.txt");
+if (fmsg.is_open()){
+    char emisor[64], receptor [64],txt[513],fec[20],leidostr[5];
+    while (fmsg.getline(emisor,64,',')){
+        fmsg.getline(receptor,64,',');
+        fmsg.getline(txt,513,',');
+        fmsg.getline(fec,20,',');
+        fmsg.getline(leidostr,5,'\n');
+
+        int ide = buscaridporusername(emisor);
+        int idr = buscaridporusername(receptor);
+        if (ide != -1 && idr != -1) {
+            mensaje m(emisor,receptor,txt,fec);
+            if (atoi(leidostr)==1){
+                m.marcarleido();
+            }
+            usuarios[ide].enviarmensaje(m);
+            usuarios[idr].recibirmensaje(m);
+        }
+    }
+    fmsg.close();
+}
+cargarsolicitudesdesdearchivo();
+}
+
+
+void redsocial::guardardatosenarchivo() {
+    ofstream fuser("usuarios.txt");
+    if (fuser.is_open()) {
+        for (int i = 0 ; i < usuarios.gettamaño();++i) {
+            fuser << usuarios [i].getusername()<< ","
+                  << usuarios[i].getemail()<< ","
+                  << usuarios[i].getfechanacimiento()<< ","
+                  << usuarios[i].getfotoperfil()<<","
+                  << usuarios[i].getciudad()<<","
+                  << usuarios[i].getpais()<< "\n";
+        }
+        fuser.close();
+    }
+
+    ofstream frel("relaciones.txt");
+    if (frel.is_open()) {
+        for (int i = 0; i< totalucuarios; ++i) {
+            for (j = i +1; j< totalusuarios; ++j) {
+                if (matrizadyacencia [i][j] == 1) {
+                    frel << usuarios[i].getusername()<< ",";
+                         << usuario[j].getusername() << "\n";
+                }
+            }
+        }
+        frel.close;
+    }
+
+    ofstream falb("albumes.txt");
+    if (falb.is_open()) {
+        for (int i = 0; i < usuarios.gettanalo(); ++i) {
+            listaalbumes& alblist = usuarios[i].getalbumes();
+            for (int a = 0; a< alblist.gettamaño(); ++a) {
+                album& alb = alblist[a];
+                listafotos& ftlist = alb.getfotos();
+                if(ftlist.gettamaño() ==0) {
+                    falb << alb.getnombre() << ","
+                         << alb.getrutastorage() << ","
+                         << alb.getprivacidad()<< ",,,0,0\n";
+                    else {
+                        for (int f = 0; f< flist.gettamaño(); ++f) {
+                            foto& ft=ftlist[f];
+                            falb << usuarios[i].getusername() <<","
+                                 << alb.getnombre()<< ","
+                                 << alb.getrutastorage() << ","
+                                 << alb.getprivacidad()<< ","
+                                 << ft.getruta()<<","
+                                 << ft.getfecha()<<","
+                                 << ft.gettamañobytes()<<","
+                                 <<ft.getlikes()<<"\n";
+
+                        }
+                    }
+                }
+
+            }
+            falb.close();
+        }
+        ofstream fmsg("mensajes.txt");
+        if (fmsg.is_open()){
+            for (int i = 0; i < usuarios.gettamaño();++i){
+                listamensajes& msglist =usuarios[i].getmensajesenviados();
+                for(int m= 0; m< msglist.gettamaño(); ++m){
+                    mensaje& msg = msglist[m];
+                    fmsg<< msg.getemisor()<<","
+                         << msg.getreceptor()<<","
+                         << msg.getcontenido() << ","
+                         << msg.getfechaenvio() << ","
+                         << (msg.isleido() ? 1 : 0)<< "\n";
+
+                }
+            }
+            fmsg.close;
+        }
+        guardarsolicitudesenarchivo();
+    }
+
+
 void redsocial::mostrarmejoresamigos(int idusuarioactual) {
     cout <<"\n mejores amigos (fotos de perfil) \n";
     int amigosencontrados = 0;
     for (int i = 0; i < totalusuarios; ++i){
-        monitorrecursos::registrariteracion() ;
+        monitorderecurso::registrariteracion() ;
         if ( i != idusuarioactual && sonamigos(idusuarioactual, i)) {
             cout<< "foto perfil de amigo " << (amigosencontrados + 1 ) << ":"
                  << usuarios[i].getfotoperfil() << "\n";
@@ -151,7 +360,7 @@ void redsocial::aceptarsolicitudpendientes(int idusuarioactual){
     }
     cout << "solicitudes de amistad pendientes:\n";
     for (int i= 0; i < pendientes.gettamaño(); ++i) {
-        monitorrecursos::registrariteracion();
+        monitorderecurso::registrariteracion();
         int idsolicitante = pendientes[i];
         cout << (i+1) << ". " << usuarios[idsolicitante].getusername() << "\n";
 
@@ -161,10 +370,14 @@ void redsocial::aceptarsolicitudpendientes(int idusuarioactual){
     cin >> seleccion;
     if (seleccion> 0 && seleccion<= pendientes.gettamaño()) {
         estableceramistad(idusuarioactual, idaceptado);
-        cout << "ahora eres amigo de " << usuarios[idaceptado].getusername() <<"!\n";
+        pendientes.eliminaren(seleccion-1);
+        guardarsolicitudesenarchivo();
+        guardardatosenarchivos();
 
+        cout<< "ahora eres amigo de" << usuarios[idaceptado].getusername()<< "\n";
     }
 }
+
 
 
 
