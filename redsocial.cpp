@@ -504,14 +504,52 @@ void redsocial::mostrarsugerenciaamistad(int idusuarioactual,int k ) {
         cout << i +1 << ". " << usuarios[candidatosids[i]].getusername()
              << "(" << coincidenciascore[i]<< "amigos en comen)";
 
-
+    }
         if (limite == 0) {
             cout << "no hay sugerencias de amistad para mostrar en este momento "
         }
 
 
+        monitorrecursos ::registrarliberacion(sizeof(int) * totalusuarios * 2);
+        delete[] candidatosids;
+        delete[] coincidenciascore;
 
+        monitorrecursos::mostrarmetricas("ver sugerencias de amistad");
 
+    }
+
+    void redsocial::enviarmensaje(int idemisor, const char* usernamedestino, const char* texto) {
+        int iddestino = buscarporusername(usernamedestino);
+        if (iddestino == -1 || !sonamigos(idemisor,iddestino)) {
+            cout << "error: no existe el usuario o no es tu amigo. ";
+            return
+        }
+        if (strlen(texto) == 0) {
+            cout << "error: no se pueden enviar mensajes vacios.";
+            return;
+        }
+        mensaje msg(usuarios[idemisor].getusername(), usernamedestino, texto, "2026-10-15 11:00");
+        usuarios[idemisor].enviarmensaje(msg);
+        usuario[iddestino].recibirmensaje(msg);
+        cout << "mensaje enviado exitosamente a " << usernamedestino << ;
+}
+
+    void redsocial::leernuevosmensajes(int idusuarioactual){
+        listamensajes& mensajes = usuarios[idusuarioactual].getmensajesrecibidos();
+        int noleidos = 0;
+        cout << "mensajes nuevos ";
+        for (int i = 0; i < mensajes.gettamaño(); ++i) {
+            monitorrecursos::registrariteracion();
+            if(!mensajes[i].isleido()) {
+                cout << "de: " << mensajes[i].getemisor() << mensaje[i].getfechaenvio() << ;
+                cout <<"texto: " << mensaje[i].getcontenido() <<;
+                mensajes[i].marcarleido();
+                noleidos++;
+            }
+        }
+        if (noleidos == 0) {
+            cout << "no tienes mensajes nuevos sin leer.";
+        }
     }
 
 
@@ -519,7 +557,7 @@ void redsocial::mostrarsugerenciaamistad(int idusuarioactual,int k ) {
 
 
 
-}
+
 
 
 
