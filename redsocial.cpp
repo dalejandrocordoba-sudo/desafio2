@@ -1,5 +1,5 @@
 #include "redsocial.h"
-#include "monitorderecursos"
+#include "monitorderecurso.h"
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
@@ -27,7 +27,7 @@ redsocial ::~redsocial() {
 
     for (int i = 0; i< capacidadusuarios; ++i){
         monitorderecurso :: registrarliberacion(sizeof(int)* capacidadusuarios)
-        delate matrizadyacencia[i];
+        delete matrizadyacencia[i];
     }
     monitorderecurso::registrarliberacion(sizeof(int)* capacidadusuarios);
     delate [] matrizadyacencia;
@@ -100,7 +100,7 @@ bool redsocial::sonamigos(int idu1,int idu2) const {
 int redsocial:: calcularamigosencomun(int idu1,int idu2) {
     int contador= 0;
     for (int k = 0; k < totalusuarios; ++k) {
-        monitorderecurso::registarinteraccion();
+        monitorderecurso::registrariteracion();
         if(matrizadyacencia[idu1][k]== 1 && matrizadyacencia[idu2][k]== 1){
             contador++;
         }
@@ -188,7 +188,7 @@ if (falb.is_open()) {
 
             int idxalbum =-1;
             for (int a =0; a< user.getalbumes().gettamaño(); ++a) {
-                if (strcmp(user.getlalbumes()[a].getnombre(),nomalb)== 0) {
+                if (strcmp(user.getalbumes()[a].getnombre(),nomalb)== 0) {
                     idxalbum = a;
                     break;
                 }
@@ -256,7 +256,7 @@ void redsocial::guardardatosenarchivo() {
 
     ofstream frel("relaciones.txt");
     if (frel.is_open()) {
-        for (int i = 0; i< totalucuarios; ++i) {
+        for (int i = 0; i< totalusuarios; ++i) {
             for (j = i +1; j< totalusuarios; ++j) {
                 if (matrizadyacencia [i][j] == 1) {
                     frel << usuarios[i].getusername()<< ",";
@@ -361,7 +361,7 @@ void redsocial::aceptarsolicitudpendientes(int idusuarioactual){
     }
     cout << "solicitudes de amistad pendientes:\n";
     for (int i= 0; i < pendientes.gettamaño(); ++i) {
-        monitorderecursos::registrariteracion();
+        monitorderecurso::registrariteracion();
         int idsolicitante = pendientes[i];
         cout << (i+1) << ". " << usuarios[idsolicitante].getusername() << "\n";
 
@@ -380,10 +380,10 @@ void redsocial::aceptarsolicitudpendientes(int idusuarioactual){
 }
 
 void redsocial ::visitarperfilamigo(int idusuarioactual, const char* usernameamigo) {
-    monitorrecursos::reiniciarinteraciones();
+    monitorderecurso::reiniciarinteraciones();
     if(idamigo == -1 || !sonamigos(idusuarioactual,idamigo)) {
         cout << "error: el usuario no existe o no es tu amigo.";
-        monitorrecursos::mostrarmetricas("visitar perfil de amigo");
+        monitorderecurso::mostrarmetricas("visitar perfil de amigo");
         return;
     }
 
@@ -396,7 +396,7 @@ void redsocial ::visitarperfilamigo(int idusuarioactual, const char* usernameami
     }
     cout << "albumes de "<< amigo.getusername() << ":";
     for (int i = 0 ; i < albumes.gettamaño(); ++i) {
-        monitorrecuros::registrariteracion();
+        monitorderecurso::registrariteracion();
         cout << (i+1)<< ". "<< albumes[i].getnombre();
         if (albumes[i].getprivacidad() == 0 ) cout << "(publico)";
         else if (albumes[i].getprivacidad() == 2 ) cout << "(amigos)";
@@ -409,7 +409,7 @@ void redsocial ::visitarperfilamigo(int idusuarioactual, const char* usernameami
         if(sel> 0 && sel <= albumes.gettamaño()) {
             navegarcarruselalbum(idusuarioactual,usernameamigo, sel - 1);
         }else {
-            monitorrecursos::mostrarmetricas ("visitar perfil de amigo");
+            monitorderecurso::mostrarmetricas ("visitar perfil de amigo");
         }
 }
 
@@ -431,7 +431,7 @@ void redsocial::navegarcarruselalbum(int idusuarioactual, const char * usernamea
     listafotos& fotos = album.getfotos();
     if (fotos.gettamaño)() ==0) {
             cout << "el album esta vacion.";
-            monitorrecursos:: mostrarmetricas("visitar perfil de amigo");
+            monitorderecurso:: mostrarmetricas("visitar perfil de amigo");
             return;
         }
     int idxfotoactual= 0;
@@ -460,7 +460,7 @@ void redsocial::navegarcarruselalbum(int idusuarioactual, const char * usernamea
 
     }while (opcion != 'S' && opcion != 's');
 
-    monitorrecursos::mostrarmetricas("visitar perfil de amigo");
+    monitorderecurso::mostrarmetricas("visitar perfil de amigo");
 }
 
 void redsocial::mostrarsugerenciaamistad(int idusuarioactual,int k ) {
@@ -468,7 +468,7 @@ void redsocial::mostrarsugerenciaamistad(int idusuarioactual,int k ) {
 
     int* candidatosids = new int [totalusuarios];
     int* coincidenciascore = new int[totalusuarios];
-    monitorrecuros::registrarasignacion(sizeof(int)*totalusuarios * 2);
+    monitorderecurso::registrarasignacion(sizeof(int)*totalusuarios * 2);
     int numcantidadatos = 0;
 
     for (int i = 0; i < totalusuarios; ++i) {
@@ -510,7 +510,7 @@ void redsocial::mostrarsugerenciaamistad(int idusuarioactual,int k ) {
         }
 
 
-        monitorrecursos ::registrarliberacion(sizeof(int) * totalusuarios * 2);
+        monitorderecurso ::registrarliberacion(sizeof(int) * totalusuarios * 2);
         delete[] candidatosids;
         delete[] coincidenciascore;
 
