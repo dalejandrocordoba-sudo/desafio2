@@ -3,14 +3,14 @@
 
 void listausuarios::redimensionar(int nuevacapacidad) {
     usuario* nuevoarreglo = new usuario[nuevacapacidad];
-    monitorrecursos::registrarasignacion(sizeof(usuario)* nuevacapacidad);
+    monitorderecursos::registrarasignacion(sizeof(usuario)* nuevacapacidad);
 
     for (int i= 0; i < tamaño; ++i) {
-        monitorrecursos::registrariteracion();
+        monitorderecursos::registrariteracion();
         nuevoarreglo[i] = datos[i];
     }
 
-monitorderecursos::regustrarliberacion(sizeof(usuario)* capacidad);
+monitorderecursos::registrarliberacion(sizeof(usuario)* capacidad);
 delete[] datos;
 datos = nuevoarreglo;
 capacidad = nuevacapacidad;
@@ -22,14 +22,14 @@ listausuarios::listausuarios() : capacidad(4),tamaño(0) {
     }
 listausuarios::listausuarios(const listausuarios& otra) : capacidad(otra.capacidad), tamaño(otra.tamaño) {
     datos = new usuario[capacidad];
-    monitorderecursos::registrartasignacion(sizeof(usuario)* capacidad);
+    monitorderecursos::registrarasignacion(sizeof(usuario)* capacidad);
     for (int i = o; i < tamao; ++i) {
         datos[i] = otra.datos[i];
     }
 }
 
 listausuarios::~listausuarios() {
-    monitorrecursos::registrarliberacion(sizeof(usuario)+ capacidad);
+    monitorderecursos::registrarliberacion(sizeof(usuario)+ capacidad);
     delete[] datos;
 
 }

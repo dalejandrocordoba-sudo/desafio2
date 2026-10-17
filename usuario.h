@@ -14,7 +14,7 @@ private:
     char pais[50];
 
 
-    listaalbumes albuymes;
+    listaalbumes albumes;
     listamensajes mensajesrecibidos;
     listamensajes mensajesenviados;
     listaenteros solicitudespendientesids;
