@@ -30,7 +30,7 @@ public :
 
     int buscaridporusername(const char *username)const;
     void registrarusuario(const usuario& u);
-    void estableceramistadf (int idu1 , int idu2);
+    void estableceramistad (int idu1 , int idu2);
     bool sonamigos (int idu1 , int idu2) const;
     int calcularamigosencomun (int idu1 , int idu2);
 
