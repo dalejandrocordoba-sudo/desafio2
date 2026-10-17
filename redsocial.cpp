@@ -551,7 +551,7 @@ void redsocial::mostrarsugerenciaamistad(int idusuarioactual,int k ) {
             cout << "no tienes mensajes nuevos sin leer.";
         }
     }
-
+album
 
 
 
