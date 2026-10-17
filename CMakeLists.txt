@@ -12,12 +12,13 @@ add_executable(desafio2 main.cpp
     monitorderecursos.cpp
     foto.h
     foto.cpp
-<<<<<<< HEAD
     album.h
-    album.cpp)
-=======
-    foto.cpp)
->>>>>>> 7da305b02ca2c379b786eb54d4df1488ebe9084b
+    album.cpp
+    mensaje.h
+    mensaje.cpp
+    listafotos.h
+    listafotos.cpp)
+
 
 include(GNUInstallDirs)
 install(TARGETS desafio2
