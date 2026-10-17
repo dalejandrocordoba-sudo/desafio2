@@ -2,8 +2,8 @@
 
 using namespace std;
 
-unsigned long monitorecursos::memoriaconsumidabytes=0;
-unsigned long long monitorrecursos::contadorinteraciones = 0;
+unsigned long monitorderecurso::memoriaconsumidabytes=0;
+unsigned long long monitorderecurso::contadorinteraciones = 0;
 
 void monitorderecurso::reiniciariteraciones(){
     contadorinteraciones=0;
@@ -36,9 +36,6 @@ unsigned long monitorderecurso::getmemoriabytes(){
     return memoriaconsumidabytes;
 }
 
-void monitorderecurso::mostrarmetricas(const char *nombrefuncionalidad){
-
-}
 
 void monitorderecurso::mostrarmetricas(const char *nombrefuncionalidad){
 
