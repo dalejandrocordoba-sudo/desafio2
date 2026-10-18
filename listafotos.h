@@ -7,7 +7,7 @@ private:
 
     foto* datos;
     int capacidad;
-    int tamano;
+    int tamaño;
     void redimencionar(int nuevacapacidad);
 
 public:

@@ -5,7 +5,7 @@ void listafotos::redimencionar(int nuevacapacidad){
     foto* nuevoarreglo= new foto[nuevacapacidad];
     monitorderecurso::registrarasignacion(sizeof(foto) * nuevacapacidad);
 
-    for (int i = 0; i < tamano; ++i) {
+    for (int i = 0; i < tamaño; ++i) {
 
         nuevoarreglo[i]= datos[i];
 
@@ -17,13 +17,18 @@ void listafotos::redimencionar(int nuevacapacidad){
 
     datos = nuevoarreglo;
     capacidad= nuevacapacidad;
+
 }
 
-listafotos::listafotos(const listafotos &otra) : capacidad(otra.capacidad), tamano(otra.tamano){
+listafotos::listafotos() : capacidad(4), tamaño(0) {
+    datos = new foto[capacidad];
+    monitorderecurso::registrarasignacion(sizeof(foto)* capacidad);
+}
+listafotos::listafotos(const listafotos &otra) : capacidad(otra.capacidad), tamaño(otra.tamaño){
     datos = new foto [capacidad];
     monitorderecurso::registrarasignacion(sizeof(foto)* capacidad);
 
-    for(int i=0; i<tamano; ++i){
+    for(int i=0; i<tamaño; ++i){
         datos[i] = otra.datos[i];
     }
 }
@@ -38,11 +43,11 @@ listafotos& listafotos::operator=(const listafotos& otra) {
 
         capacidad = otra.capacidad;
 
-        tamano= otra.tamano;
+        tamaño= otra.tamaño;
 
 
 
-        for (int i=0; i<tamano; ++i){
+        for (int i=0; i<tamaño; ++i){
 
             datos[i]= otra.datos[i];
         }
@@ -61,7 +66,7 @@ listafotos::~listafotos(){
 }
 
 void listafotos::agregar(const foto &foto){
-    if (tamano== capacidad) {
+    if (tamaño== capacidad) {
 
         redimencionar(capacidad * 2);
     }
@@ -87,7 +92,7 @@ const foto& listafotos::obtener(int indice) const{
 
 
 int listafotos::gettamaño() const {
-    return tamano;
+    return tamaño;
 }
 
 foto& listafotos::operator[](int indice) {
