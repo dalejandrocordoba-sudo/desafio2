@@ -14,7 +14,7 @@ private :
     int totalusuarios;
     int capacidadusuarios;
 
-    void redimencionarmatriz(int nuevacapacidad);
+    void redimensionarmatriz(int nuevacapacidad);
 public :
 
     redsocial();
