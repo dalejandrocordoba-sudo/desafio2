@@ -24,8 +24,8 @@ add_executable(desafio2 main.cpp
     usuario.cpp
     listaenteros.h
     listaenteros.cpp
-    mensaje.h
-    mensaje.cpp
+    listamensajes.h
+    listamensajes.cpp
     listaalbumes.h
     listaalbumes.cpp)
 
