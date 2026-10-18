@@ -20,7 +20,7 @@ public:
     int gettamano() const;
 
     foto& operador[](int indice);
-    const foto& operador[](int indice)const;
+    const foto& operator[](int indice)const;
 
 }
 

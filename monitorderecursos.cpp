@@ -36,7 +36,6 @@ unsigned long monitorderecurso::getmemoriabytes(){
     return memoriaconsumidabytes;
 }
 
-
 void monitorderecurso::mostrarmetricas(const char *nombrefuncionalidad){
 
     cout<<"cantidad de interacciones: "<<contadorinteraciones<<endl;
