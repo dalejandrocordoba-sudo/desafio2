@@ -1,7 +1,7 @@
 #ifndef MENSAJE_H
 #define MENSAJE_H
 
-//clase revisada y no se encuentra problemas
+
 class mensaje{
 
 private:
@@ -25,6 +25,6 @@ public:
     const char* getreceptor() const;
 
 
-};//
+};
 
-#endif // MENSAJE_H
+#endif
