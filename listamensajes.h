@@ -8,24 +8,24 @@ class listamensajes{
 private:
     mensaje* datos;
     int capacidad;
-    int tamano;
-    void redimencionar(int nuevacapacidad);
+    int tamaño;
+    void redimensionar(int nuevacapacidad);
 
 
 
 public:
     listamensajes();
     listamensajes(const listamensajes& otra);
-    listamensajes& operador=(const listamensajes& otra);
+    listamensajes& operator=(const listamensajes& otra);
     ~listamensajes();
 
     void agregar(const mensaje& mensaje);
     mensaje& obtener (int indice);
     const mensaje& obtener(int indice) const;
-    int gettamano() const;
+    int gettamaño() const;
 
-    mensaje& operador[](int indice);
-    const mensaje& operador[](int indice) const;
+    mensaje& operator[](int indice);
+    const mensaje& operator[](int indice) const;
 
 
 

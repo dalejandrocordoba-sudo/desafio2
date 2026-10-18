@@ -15,7 +15,7 @@ private:
 public:
     foto();
     foto(const char* ruta, const char* fecha, unsigned int tamano);
-    unsigned int gettemanobytes() const;
+    unsigned int gettemañobytes() const;
     unsigned int getlikes() const;
 
     const char* getruta() const;
@@ -25,6 +25,6 @@ public:
     void darlike();
     void quitarlike();
 
-}
+};
 
-#endif // FOTO_H
+#endif

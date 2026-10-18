@@ -16,13 +16,14 @@ private:
 public:
     mensaje();
     mensaje(const char* em, const char* rec, const char* cont, const char* fecha);
+     const char* getreceptor() const;
     const char* getemisor() const;
     const char* getfechaenvio() const;
     const char* getcontenido() const;
     bool isleido() const;
     void marcarleido();
-    void setestadoleido();
-    const char* getreceptor() const;
+    void setestadoleido(bool estado);
+
 
 
 };

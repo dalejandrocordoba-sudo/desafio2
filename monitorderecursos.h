@@ -7,8 +7,8 @@ using namespace std;
 class monitorderecurso
 {
 private:
-    static unsigned memoriaconsumidabytes;
-    static unsigned contadorinteraciones;
+    static unsigned long memoriaconsumidabytes;
+    static unsigned long long contadorinteraciones;
 
 public:
     static void reiniciariteraciones();

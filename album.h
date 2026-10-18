@@ -1,7 +1,7 @@
 #ifndef ALBUM_H
 #define ALBUM_H
 
-#include <iostream>
+#include "listafotos.h"
 
 class album{
 
