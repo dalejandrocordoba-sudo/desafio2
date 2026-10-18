@@ -27,7 +27,5 @@ public:
     mensaje& operador[](int indice);
     const mensaje& operador[](int indice) const;
 
-
-
 };
 #endif // LISTAMENSAJES_H

@@ -25,7 +25,10 @@ add_executable(desafio2 main.cpp
     listaenteros.h
     listaenteros.cpp
     listamensajes.h
-    listamensajes.cpp)
+    listamensajes.cpp
+    listaalbumes.h
+    listaalbumes.cpp)
+
 
 include(GNUInstallDirs)
 install(TARGETS desafio2
