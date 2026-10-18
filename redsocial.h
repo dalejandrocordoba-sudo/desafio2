@@ -42,6 +42,5 @@ public :
     void mostrarsugerenciasamistad(int idusuarioactual, int k );
     void enviarmensaje (int idemisor, const char* usernamedestino, const char* texto);
     void leernuevosmensajes(int idusuarioactual);
-    void buscarmensajesporrangofechas(int idusuarioactual,const char* fechainicio,const char* fechafin);
-};
+    };
 #endif

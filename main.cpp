@@ -219,8 +219,9 @@ int main()
                 cin>>finicio;
                 cout<<"fecha fin: ";
                 cin>>ffin;
-                red.buscarmensajesporrangofechas(idusuariosesion, finicio, ffin);
+
             }
+            monitorderecurso::mostrarmetricas("administrar mensaje");
 
             break;
         }
