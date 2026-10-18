@@ -30,7 +30,7 @@ void foto::setlikes(unsigned int nlikes){
     likes = nlikes;
 }
 
-unsigned int foto::gettemanobytes() const{
+unsigned int foto::gettemañobytes() const{
     return tamanobytes;
 }
 

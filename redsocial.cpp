@@ -1,5 +1,5 @@
 #include "redsocial.h"
-#include "monitorderecurso.h"
+#include "monitorderecursos.h"
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
@@ -291,7 +291,7 @@ void redsocial::guardardatosenarchivo() {
                              << alb.getprivacidad()<< ","
                              << ft.getruta()<<","
                              << ft.getfecha()<<","
-                             << ft.gettamañobytes()<<","
+                             << ft.gettemañobytes()<<","
                              <<ft.getlikes()<<"\n";
 
                     }
@@ -385,7 +385,7 @@ void redsocial::aceptarsolicitudespendientes(int idusuarioactual){
     }
 }
 
-void redsocial ::visitarperfilamigo(int idusuarioactual, const char* usernameamigo) {
+void redsocial::visitarperfilamigo(int idusuarioactual, const char* usernameamigo) {
     monitorderecurso::reiniciariteraciones();
     int idamigo = buscaridporusername(usernameamigo);
     if(idamigo == -1 || !sonamigos(idusuarioactual,idamigo)) {
@@ -548,7 +548,7 @@ void redsocial::leernuevosmensajes(int idusuarioactual){
     for (int i = 0; i < mensajes.gettamaño(); ++i) {
         monitorderecurso::registrariteracion();
         if(!mensajes[i].isleido()) {
-            cout << "de: " << mensajes[i].getemisor() <<"[ " mensajes[i].getfechaenvio()  << "] \n";
+            cout << "de: " << mensajes[i].getemisor() <<"[ " << mensajes[i].getfechaenvio()  << "] \n";
             cout <<"texto: " << mensajes[i].getcontenido() << "\n";
             mensajes[i].marcarleido();
             noleidos++;

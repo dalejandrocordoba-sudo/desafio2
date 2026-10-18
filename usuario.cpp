@@ -106,7 +106,7 @@ usuario& usuario::operator=(const usuario& otro) {
         albumes = otro.albumes;
         mensajesrecibidos = otro.mensajesrecibidos;
         mensajesenviados = otro.mensajesenviados;
-        solicitudespendientesids =otro.solicitudespendientesids,
+        solicitudespendientesids =otro.solicitudespendientesids;
     }
     return *this;
 }
@@ -154,7 +154,7 @@ listaalbumes& usuario::getalbumes(){
 listamensajes& usuario::getmensajesrecibidos() {
     return mensajesrecibidos;
 }
-listamensajes& usuarios::getmensajesenviados() {
+listamensajes& usuario::getmensajesenviados() {
     return mensajesenviados;
 }
 listaenteros& usuario::getsolicitudespendientes(){

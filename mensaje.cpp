@@ -42,6 +42,9 @@ const char* mensaje::getfechaenvio()const{
 const char* mensaje::getcontenido()const{
     return contenido;
 }
+bool mensaje::isleido() const{
+    return leido;
+}
 
 void mensaje::marcarleido(){
    leido= true;
@@ -51,9 +54,7 @@ void mensaje::marcarleido(){
 void mensaje::setestadoleido(bool estado){
     leido=estado;
 }
-bool mensaje::isleido() const{
-    return leido;
-}
+
 
 
 

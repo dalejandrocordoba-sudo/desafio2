@@ -2,16 +2,16 @@
 #include "monitorderecursos.h"
 
 void listafotos::redimencionar(int nuevacapacidad){
-    foto* nuevoareglo= new foto[nuevacapacidad];
-    monitorderecurso::registrarasignacion(size(foto)) * nuevacapacidad;
+    foto* nuevoarreglo= new foto[nuevacapacidad];
+    monitorderecurso::registrarasignacion(sizeof(foto) * nuevacapacidad);
 
     for (int i = 0; i < tamano; ++i) {
 
-        nuevoareglo[i]= datos[i];
+        nuevoarreglo[i]= datos[i];
 
     }
 
-    monitorderecurso::registrarliberacion(size(foto) * capacidad);
+    monitorderecurso::registrarliberacion(sizeof(foto) * capacidad);
     delete[] datos;
 
 
@@ -19,8 +19,8 @@ void listafotos::redimencionar(int nuevacapacidad){
     capacidad= nuevacapacidad;
 }
 
-listafotos::listafotos(const listafotos &otra) : capacidad(otra.capasidad), tamano(otra.tamano){
-    datos = new fotos [capacidad];
+listafotos::listafotos(const listafotos &otra) : capacidad(otra.capacidad), tamano(otra.tamano){
+    datos = new foto [capacidad];
     monitorderecurso::registrarasignacion(sizeof(foto)* capacidad);
 
     for(int i=0; i<tamano; ++i){
@@ -28,9 +28,9 @@ listafotos::listafotos(const listafotos &otra) : capacidad(otra.capasidad), tama
     }
 }
 
-Listafotos& Listafotos::operator=(const Listafotos& otra) {
+listafotos& listafotos::operator=(const listafotos& otra) {
     if (this != &otra) {
-        MonitorRecursos::registrarLiberacion(sizeof(Foto) * capacidad);
+        monitorderecurso::registrarliberacion(sizeof(foto) * capacidad);
         delete[] datos;
 
 
@@ -55,7 +55,7 @@ Listafotos& Listafotos::operator=(const Listafotos& otra) {
 
 
 listafotos::~listafotos(){
-    monitorderecurso::registrarliberacion(sizeof(foto) * capasidad);
+    monitorderecurso::registrarliberacion(sizeof(foto) * capacidad);
     delete[] datos;
 
 }
@@ -86,14 +86,14 @@ const foto& listafotos::obtener(int indice) const{
 
 
 
-int listafotos::gettamano() const {
+int listafotos::gettamaño() const {
     return tamano;
 }
 
-foto& listafotos::operador[](int indice) {
+foto& listafotos::operator[](int indice) {
     return datos[indice];
 }
 
-const foto& listafotos::operador[](int indice) const {
+const foto& listafotos::operator[](int indice) const {
     return datos[indice];
 }

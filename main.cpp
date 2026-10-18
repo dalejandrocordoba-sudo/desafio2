@@ -10,9 +10,9 @@ int main()
     cout << "inicio desafio2" << endl;
     redsocial red;
 
-    monitorderecurso::reiniciarinteracciones();
-    red.cargardatosdesdearchivo();
-    monitorderecurso::mostrarmetricas();
+    monitorderecurso::reiniciariteraciones();
+    red.cargardatosdesdearchivos();
+    monitorderecurso::mostrarmetricas("inicio de datos");
 
 
 
@@ -38,9 +38,9 @@ int main()
 
         //primera parte pare el inicio de sesion
 
-        cout<<"1. iniciar sesion";<<endl;
-        cout<<"2. registro de usuario";<<endl;
-        cout<<"3. salir";<<endl;
+        cout<<"1. iniciar sesion" << endl;
+        cout<<"2. registro de usuario" << endl;
+        cout<<"3. salir" << endl;
         cin>>opcionacceso;
         cout<<"la opcion seleccionada fue: "<<opcionacceso<<endl;
 
@@ -141,7 +141,7 @@ int main()
             cin>>subop;
             cout<<"la opcion elegida fue: "<<subop<<endl;
 
-            monitorderecurso::reiniciarinteracciones();//revisar bien esta la clase ya que la mia presento problemas
+            monitorderecurso::reiniciariteraciones();//revisar bien esta la clase ya que la mia presento problemas
             if(subop==1){
                 char amigodestino[64];
                 cout<<"nombre a quien envia solicitud:";
@@ -165,7 +165,7 @@ int main()
             cout<<"pon el nombre del amigo que quiere ver:";
             cin>>amigouser;
 
-            red.visitarperfilamigo(idusuariosesion, amigouser);
+            red.visitarperfilamigo(idusuariosesion, amigouser ) ;
             break;
         }
 
@@ -238,7 +238,7 @@ int main()
 
     cout<<"guardar cambios"<<endl;
 
-    red.guardardatosenarchivos();
+    red.guardardatosenarchivo();
     cout<<"sesion cerrada";
 
 
@@ -248,4 +248,5 @@ int main()
 
 
     return 0;
+}
 }

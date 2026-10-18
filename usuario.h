@@ -25,7 +25,7 @@ public:
     usuario(const char* user, const char* mail, const char* fotoruta);
     usuario(const char* user, const char* mail, const char* fnac, const char* fotoruta, const char* ciu, const char* pa);
     usuario(const usuario& otro);
-    usuario& opertator=( const usuario& otro);
+    usuario& operator=( const usuario& otro);
     ~usuario();
 
     const char* getusername() const;
@@ -42,7 +42,7 @@ public:
 
     listaalbumes& getalbumes();
     listamensajes& getmensajesrecibidos();
-    listamensajes& getmensajeenviados();
+    listamensajes& getmensajesenviados();
     listaenteros& getsolicitudespendientes();
 
 

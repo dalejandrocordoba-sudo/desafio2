@@ -25,7 +25,7 @@ album::album(const char* nombre, const char* ruta, int privacidad){
 }
 album::album(const char* propietario, const char* nombre, const char* ruta, int publico){
 
-    strncpy(usuariopropietatario, propietario, sizeof(usuariopropietario)-1);
+    strncpy(usuariopropietario, propietario, sizeof(usuariopropietario)-1);
     usuariopropietario[sizeof(usuariopropietario)-1]= '\0';
 
     strncpy(nombrealbum, nombre, sizeof(nombrealbum)-1);
@@ -50,9 +50,23 @@ album::album(const album& otro){
 
     espublico = otro.espublico;
     fotos = otro.fotos;
+}
 
+album& album::operator=(const album& otro) {
+    if(this != &otro) {
+        strncpy(usuariopropietario, otro.usuariopropietario, sizeof(usuariopropietario)-1);
+        usuariopropietario[sizeof(usuariopropietario)-1] = '\0';
+
+        strncpy(nombrealbum,otro.nombrealbum, sizeof(nombrealbum) -1);
+        nombrealbum[sizeof(nombrealbum)-1 ] = '\0';
+
+        strncpy(rutacarpeta, otro.rutacarpeta, sizeof(rutacarpeta)-1);
+        rutacarpeta[sizeof(rutacarpeta)-1] = '\0';
+
+        espublico = otro.espublico;
+        fotos = otro.fotos;
+    }
     return *this;
-
 }
 
 
@@ -69,10 +83,10 @@ const char* album::getrutastorage() const{
     return rutacarpeta;
 }
 
-int album::getPrivacidad() const {
-    return esPublico; }
+int album::getprivacidad() const {
+    return espublico; }
 
-int album::getespublico() const {
+int album::getpublico() const {
     return espublico;
 }
 
@@ -89,7 +103,7 @@ void album::setusuariopropietario(const char* propietario){
 }
 
 
-void album::agregarfotos(const fotos& f){
+void album::agregarfoto(const foto& foto){
     fotos.agregar(foto);
 }
 
