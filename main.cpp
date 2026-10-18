@@ -141,7 +141,7 @@ int main()
             cin>>subop;
             cout<<"la opcion elegida fue: "<<subop<<endl;
 
-            monitorrecursos::reiniciarinteracciones();//revisar bien esta la clase ya que la mia presento problemas
+            monitorderecurso::reiniciarinteracciones();//revisar bien esta la clase ya que la mia presento problemas
             if(subop==1){
                 char amigodestino[64];
                 cout<<"nombre a quien envia solicitud:";
