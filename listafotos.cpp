@@ -38,12 +38,12 @@ listafotos& listafotos::operator=(const listafotos& otra) {
         monitorderecurso::registrarliberacion(sizeof(foto) * capacidad);
         delete[] datos;
 
-
-
-
         capacidad = otra.capacidad;
 
         tamaño= otra.tamaño;
+
+        datos = new foto[capacidad];
+        monitorderecurso::registrarasignacion(sizeof(foto) * capacidad);
 
 
 
@@ -70,6 +70,7 @@ void listafotos::agregar(const foto &foto){
 
         redimencionar(capacidad * 2);
     }
+    datos[tamaño++] = foto;
 
 }
 

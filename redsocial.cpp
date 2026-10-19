@@ -43,7 +43,8 @@ void redsocial::redimensionarmatriz(int nuevacapacidad) {/*inicializamos el meto
                                                     posibilidades de amistades de acuerdo a la nueva capacidad dependiendo de la cantidad de amistades
                                                     existentes y de la cantidad de usuarios registrados */
 
-    int ** nuevamatriz = new int*[nuevacapacidad];/*creamos un doble puntero a nuevamatriz donde esta va a tener un arreglo de acuerdo a la
+    int ** nuevamatriz = new int*[nuevacapacidad];/*creamos un doble puntero  creando asi en la heap un almacenamiento fila a fila y columna a
+                                                    columna apuntando este a nuevamatriz donde esta va a tener un arreglo de acuerdo a la
                                                     nuevacapacidad*/
     monitorderecurso ::registrarasignacion (sizeof (int*)* nuevacapacidad);/*registramos la cantidad de interacciones en un contador para dicho puntero*/
 
@@ -195,14 +196,14 @@ void redsocial ::cargardatosdesdearchivos() {/*cargamos los datos que tenemos en
     if (falb.is_open()) {
         char prop[64], nomalb[64], rstorage[256], privstr[10];/*creamos las variables para propietario de el album , nombre del album , ruta de almacenamiento
                                                             privacidad del album , ruta de la foto , fecha de la foto , tamaño de la foto y cantidad de likes*/
-        char rfoto [256], ffoto[11], tamstr [15], likesstr[15];
+        char rfoto [256], ffoto[32], tamstr [15], likesstr[15];
 
         while (falb.getline(prop,64,',')) {
             falb.getline(nomalb, 64, ',');
             falb.getline(rstorage,256,',');
             falb.getline(privstr,10,',');
             falb.getline(rfoto,256,',');
-            falb.getline(ffoto,11,',');
+            falb.getline(ffoto,32,',');
             falb.getline(tamstr,15,',');
             falb.getline(likesstr, 15, '\n');
 
@@ -469,8 +470,8 @@ void redsocial::navegarcarruselalbum(int idusuarioactual, const char * usernamea
     do{
         foto& fotoactual = fotos[idxfotoactual];
         cout << "album: " << album.getnombre()<< "\n";
-        cout << "foto ("<< idxfotoactual+1 << "/"<<fotos.gettamaño() << ")\n";
-        cout  << fotoactual.getruta() << "\n";
+        cout << "foto ("<< idxfotoactual+1 << "/"<<fotos.gettamaño() << "):"
+          << fotoactual.getruta() << "\n";
         cout << "likes:" << fotoactual.getlikes()<< "\n";
         cout << "[n] siguiente | [p] previa | [l] dar like | [s] salir \n";
         cout << "opcion: ";
@@ -560,6 +561,7 @@ void redsocial::enviarmensaje(int idemisor, const char* usernamedestino, const c
     mensaje msg(usuarios[idemisor].getusername(), usernamedestino, texto, "2026-10-15 11:00");
     usuarios[idemisor].enviarmensaje(msg);
     usuarios[iddestino].recibirmensaje(msg);
+    guardardatosenarchivo();
     cout << "mensaje enviado exitosamente a " << usernamedestino << "\n";
 }
 
