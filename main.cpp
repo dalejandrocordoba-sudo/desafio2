@@ -110,7 +110,6 @@ int main()
         cout<<"2. visitar perfil de amigos"<<endl;
         cout<<"3. sugerencias"<<endl;
         cout<<"4. mensajes"<<endl;
-        cout<<"5. cambiar foto de perfil de amigos"<<endl;
         cout<<"6. salir"<<endl;
         
         cout<<"la opcion elegida fue"<<endl;
@@ -137,7 +136,7 @@ int main()
         case '1':{
             int subop=0;
 
-            cout<<"1.enviar solicitud de amistad"<<endl<<"aceptar solicitud"<<endl;
+            cout<<"1.enviar solicitud de amistad"<<endl<<"2 aceptar solicitud"<<endl;
             cin>>subop;
             cout<<"la opcion elegida fue: "<<subop<<endl;
 
@@ -191,7 +190,7 @@ int main()
 
             cout<<"selecione una de las siguientes opciones: "<<endl<<endl;
             cout<<"1. enviar mensajes"<<endl<<"2.leer nuevo mensaje"<<endl;
-            cout<<"3. buscar mensaje por fecha"<<endl;
+
 
             cin>>subop;
 
@@ -212,13 +211,6 @@ int main()
 
             }else if(subop==2){
                 red.leernuevosmensajes(idusuariosesion);
-
-            }else if(subop==3) {
-                char finicio[11], ffin[11];
-                cout<< "fecha inicio: ";
-                cin>>finicio;
-                cout<<"fecha fin: ";
-                cin>>ffin;
 
             }
             monitorderecurso::mostrarmetricas("administrar mensaje");

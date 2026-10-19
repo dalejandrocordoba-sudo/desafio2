@@ -7,99 +7,116 @@
 
 using namespace std;
 
-redsocial ::redsocial() {
-    totalusuarios =0;
-    capacidadusuarios = 10;
-    matrizadyacencia= new int*[capacidadusuarios];
-    monitorderecurso::registrarasignacion(sizeof(int*)*capacidadusuarios);
+redsocial ::redsocial() { /*iniciamos el constructor de red social*/
+    totalusuarios =0;/*definimos las caracteristicas con los diferentes valores siendo para total usuarios = 0 inicializando el contrador en 0 */
+    capacidadusuarios = 10;/*definimos para capacidad usuario un total de 10 empezando este en 10*/
+    matrizadyacencia= new int*[capacidadusuarios];/*creamos la matriz adyacencia con un arreglo equivalente a la capacidad de usuarios en la heap*/
+    monitorderecurso::registrarasignacion(sizeof(int*)*capacidadusuarios);/*registramos la cantidad de interacciones utilizadas en base al arreglo anterior
+                                                                        mediante nuestra clase monitorderecursos en su objeto registrarasignacion
+                                                                    utilizando sizeof como medidor de bytes */
 
-    for (int i=0; i < capacidadusuarios; ++i){
-        matrizadyacencia[i] = new int [capacidadusuarios];
-        monitorderecurso::registrarasignacion(sizeof (int)* capacidadusuarios);
-        for(int j=0; j< capacidadusuarios; ++j){
-            matrizadyacencia[i][j]=0;
+    for (int i=0; i < capacidadusuarios; ++i){/* para el entero i igual a 0  mientras i sea menos que la capacidadusuarios : entre al ciclo */
+        matrizadyacencia[i] = new int [capacidadusuarios];/*matrizadyacencia en la posicion i cree un puntero en la heap con el arreglo capacidadusuarios */
+        monitorderecurso::registrarasignacion(sizeof (int)* capacidadusuarios);/*registramos la cantidad de interacciones en un contador para dicho puntero*/
+        for(int j=0; j< capacidadusuarios; ++j){/*para el  entero j = a 0 si j es menor que capacidadusuarios entre al condicional */
+            matrizadyacencia[i][j]=0; /*matrizadyacencia en la posicion i j  osea para las 10 filas creele a cada una 10 columnas con el valor 0 esto
+                                    para limpiar la heap en estas posiciones*/
 
         }
     }
 }
 
-redsocial ::~redsocial() {
+redsocial ::~redsocial() {/*creamos el destructor*/
 
-    for (int i = 0; i< capacidadusuarios; ++i){
-        monitorderecurso :: registrarliberacion(sizeof(int)* capacidadusuarios);
-        delete[] matrizadyacencia[i];
+    for (int i = 0; i< capacidadusuarios; ++i){/*para el entero i igual a 0 i menor que la capacidadusuarios si este se cumple ingrese al ciclo*/
+        monitorderecurso :: registrarliberacion(sizeof(int)* capacidadusuarios);/*registramos la memoria liberada para descontarla en el registro que
+                                                                                llevamos*/
+        delete[] matrizadyacencia[i];/*liberamos la memoria de matrizadyacencia en cada una de las diferentes posiciones*/
     }
-    monitorderecurso::registrarliberacion(sizeof(int*)* capacidadusuarios);
-    delete[] matrizadyacencia;
+    monitorderecurso::registrarliberacion(sizeof(int*)* capacidadusuarios);/* registramos la memoria liberada para descontarla
+                                                                                en el registro que llevamos*/
+    delete[] matrizadyacencia; /*liberamos la memoria utilizada en la heap para matriz adyacencia en general */
 
 }
 
-void redsocial::redimensionarmatriz(int nuevacapacidad) {
+void redsocial::redimensionarmatriz(int nuevacapacidad) {/*inicializamos el metodo redimencionarmatriz con la intencion de establecer las nuevas
+                                                    posibilidades de amistades de acuerdo a la nueva capacidad dependiendo de la cantidad de amistades
+                                                    existentes y de la cantidad de usuarios registrados */
 
-    int ** nuevamatriz = new int*[nuevacapacidad];
-    monitorderecurso ::registrarasignacion (sizeof (int*)* nuevacapacidad);
+    int ** nuevamatriz = new int*[nuevacapacidad];/*creamos un doble puntero a nuevamatriz donde esta va a tener un arreglo de acuerdo a la
+                                                    nuevacapacidad*/
+    monitorderecurso ::registrarasignacion (sizeof (int*)* nuevacapacidad);/*registramos la cantidad de interacciones en un contador para dicho puntero*/
 
-    for (int i=0; i < nuevacapacidad; ++i){
-        nuevamatriz [i]= new int [nuevacapacidad];
-        monitorderecurso::registrarasignacion(sizeof(int)* nuevacapacidad);
-        for (int j=0; j< nuevacapacidad;++j){
-            if( i < totalusuarios && j < totalusuarios){
-                nuevamatriz[i][j] = matrizadyacencia[i][j];
+    for (int i=0; i < nuevacapacidad; ++i){/*para el entero i = a 0 mientras i sea menor que nuevacapacidad; ingrese al ciclo*/
+        nuevamatriz [i]= new int [nuevacapacidad];/*creamos un puntero para cada posicion i de la nueva matriz con un arreglo equivalente a la
+                                                    nuevacapacidad */
+        monitorderecurso::registrarasignacion(sizeof(int)* nuevacapacidad);/*registramos la cantidad de bytes en un contador para dicho puntero*/
+        for (int j=0; j< nuevacapacidad;++j){/*para el entero j = 0 si j es menor que la nueva capacidad ingresa al ciclo*/
+            if( i < totalusuarios && j < totalusuarios){/*si el indice es menor que totalusuarios y j es menor que total usuarios ingrese al condicional */
+                nuevamatriz[i][j] = matrizadyacencia[i][j];/*nuevamatriz en la posicion i j es igual a matrizadyacencia en las pocisiones i j */
             }else {
-                nuevamatriz[i][j] =0;
+                nuevamatriz[i][j] =0;/*de lo contrario la nueva matriz en la posicion i j va a ser 0 */
             }
         }
     }
     
-    for (int i = 0; i < capacidadusuarios;++i){
-        monitorderecurso::registrarliberacion (sizeof (int )* capacidadusuarios);
-        delete[] matrizadyacencia [i];
+    for (int i = 0; i < capacidadusuarios;++i){/*para el entero i = 0 mientras i sea menor que capacidadusuarios entre al ciclo*/
+        monitorderecurso::registrarliberacion (sizeof (int )* capacidadusuarios);/*registramos la memoria liberada para descontarla en el registro que
+                                                                                llevamos*/
+        delete[] matrizadyacencia [i];/*liberamos la memoria para matriz adyacencia*/
 
     }
-    monitorderecurso::registrarliberacion (sizeof(int*)* capacidadusuarios);
-    delete[] matrizadyacencia;
+    monitorderecurso::registrarliberacion (sizeof(int*)* capacidadusuarios);/* registramos la memoria liberada para descontarla
+                                                                                en el registro que llevamos*/
+    delete[] matrizadyacencia;/*liberamos la memoria utilizada en la heap para matriz adyacencia en general */
 
-    matrizadyacencia = nuevamatriz;
-    capacidadusuarios = nuevacapacidad;
+    matrizadyacencia = nuevamatriz; /*ahora matriz anyacencia  va a ser la nueva matriz*/
+    capacidadusuarios = nuevacapacidad;/*ahora la capacidadusuarios es igual a la nueva capacidad*/
 }
 
-int redsocial::buscaridporusername (const char* username) const {
+int redsocial::buscaridporusername (const char* username) const {/*inicializamos el metodo buscaridporusername y llamamos el username con un const para
+                                                                no cambiar este valor */
 
-    for (int i = 0; i < usuarios.gettamaño(); ++i){
-        monitorderecurso::registrariteracion();
+    for (int i = 0; i < usuarios.gettamaño(); ++i){/*para el entero i = 0 si i es menor que usuarios.gettamaño ingrese al ciclo*/
+        monitorderecurso::registrariteracion();/*registramos la cantidad de bytes en un contador para dicho puntero*/
 
-        if (strcmp(usuarios[i].getusername(), username) ==0){
-            return i;
+        if (strcmp(usuarios[i].getusername(), username) ==0){/*si el resultado de la comparacion entre usuario en la posicion i con los parametros del
+                                                constructor y el usuario buscado por el mismo son 0  continue al condicional*/
+            return i;/*retorne el indice donde se encuentra este sera el id del usuario*/
         }
     }
-    return -1;
+    return -1;/*si no se encuentra retorne -1 haciendo referencia a que hay un error y que no puede cumplirse lo pedido*/
 }
 
-void redsocial ::registrarusuario(const usuario& u){
-    if (totalusuarios == capacidadusuarios){
-        redimensionarmatriz (capacidadusuarios * 2);
+void redsocial::registrarusuario(const usuario& u){/*inicializamos el metodo registrarusuario llamando por referencia y como constante a usuario  */
+    if (totalusuarios == capacidadusuarios){/*si el total de usuatios es igual a la capacidad de usuarios entre al condicional*/
+        redimensionarmatriz (capacidadusuarios * 2);/* llamamos el metodo redimensionarmatriz y le aplicamos capacidad usuarios por 2 para tener mayor
+capacidad de usuarios */
     }
-    usuarios.agregar(u);
-    totalusuarios++;
-
+    usuarios.agregar(u);/*agregamos a el metodo .agregar el usuario u*/
+    totalusuarios++;/*aumentamos en uno el total de usuarios*/
 }
 
-void redsocial::estableceramistad(int idu1, int idu2) {
-    if(idu1 >=0 && idu1< totalusuarios && idu2>=0 && idu2< totalusuarios){
-        matrizadyacencia [idu1][idu2] = 1;
-        matrizadyacencia [idu2][idu1] = 1;
+void redsocial::estableceramistad(int idu1, int idu2) {/*inicializamos el metodo establecer amistad de la clase redsocial introducimos los 2 usuarios*/
+    if(idu1 >=0 && idu1< totalusuarios && idu2>=0 && idu2< totalusuarios){/*si el usuario 1 es mayor a 0 y el usuario 1 es mayor a totalusuarios y
+                                                                        el usuario 2 es mayor o igual a 0 y el usuario 2 es menor que el total de usuarios
+                                                                        ingrese al condicional*/
+        matrizadyacencia [idu1][idu2] = 1;/*registra que existe la amistad entre el usuario 1 y el usuario 2*/
+        matrizadyacencia [idu2][idu1] = 1;/*registra que existe la amistrad entre el usuario 2 y el usuario 1 */
     }
 }
 
-bool redsocial::sonamigos(int idu1,int idu2) const {
-    if (idu1 >= 0 && idu1 < totalusuarios && idu2 >= 0 && idu2< totalusuarios){
-        return matrizadyacencia[idu1][idu2]== 1;
+bool redsocial::sonamigos(int idu1,int idu2) const {/*inicializamos el metodo sonamigos y introducimos el id de el usuario 1 y el usuario 2 */
+    if (idu1 >= 0 && idu1 < totalusuarios && idu2 >= 0 && idu2< totalusuarios){/*si el usuario 1 es mayor o igual a 0 y el usuario 1 es menor que
+                                                    el totalusuarios y el usuario 2 es mayot que 0 y el usuario 2 es menor que totalusuarios*/
+        return matrizadyacencia[idu1][idu2]== 1;/*retornamos la matrizdeadyacencia para el usuario 1 y 2 si es igual a 1 retorna true */
 
     }
-    return false;
+    return false;/*si no se cumple el condicional retorna que es falso */
 }
 
-int redsocial:: calcularamigosencomun(int idu1,int idu2) {
+int redsocial:: calcularamigosencomun(int idu1,int idu2) {/*inicializamos el metodo calcularamigos en comun
+                en el cual realizamos un conteo de los amigos quitiene cada usuario en comun ejmplo el usuario 1 con el usuario 2*/
     int contador= 0;
     for (int k = 0; k < totalusuarios; ++k) {
         monitorderecurso::registrariteracion();
@@ -110,7 +127,8 @@ int redsocial:: calcularamigosencomun(int idu1,int idu2) {
     return contador;
 }
 
-void redsocial::cargarsolicitudesdesdearchivo(){
+void redsocial::cargarsolicitudesdesdearchivo(){/*cargamos las solicitudes de amistad existentes en el documento txt solicitudes.txt ya que
+                            en este almacenamos las solicitudes de ayi extraemos la informacion de quien envio la solicitud a quien */
     ifstream fsol ("solicitudes.txt");
     if(!fsol.is_open()) return;
 
@@ -123,48 +141,51 @@ void redsocial::cargarsolicitudesdesdearchivo(){
     fsol.close();
 }
 
-void redsocial::guardarsolicitudesenarchivo() {
-    ofstream fsol("solicitudes.txt", ios::trunc);
-    if(!fsol.is_open()) return;
+void redsocial::guardarsolicitudesenarchivo() {/*guardamos las solicitudes en el archivo solicitudes.txt */
+    ofstream fsol("solicitudes.txt", ios::trunc);/*limpiamos el archivo con ios::trunc*/
+    if(!fsol.is_open()) return;/*verificamos que el archivo si pueda abrirse*/
 
-    for (int i = 0; i < usuarios.gettamaño(); ++i) {
-        listaenteros& pendientes = usuarios[i].getsolicitudespendientes();
+    for (int i = 0; i < usuarios.gettamaño(); ++i) {/*realizamos un ciclo dese 1= 0 hasta i-1 pocision hasta el total de usuarios que nos arroja
+                                                        usuarios.gettamaño*/
+        listaenteros& pendientes = usuarios[i].getsolicitudespendientes();/*busca cual es el usuario que tiene las solicitudes pendientes*/
         for (int j = 0; j < pendientes.gettamaño(); ++j) {
             int idemisor = pendientes[j];
-            fsol << idemisor << " " << i << "\n";
+            fsol << idemisor << " " << i << "\n";/*imprime cual es el usuario que tiene solicitudes pendientes*/
         }
     }
     fsol.close();
 }
 
-void redsocial ::cargardatosdesdearchivos() {
+void redsocial ::cargardatosdesdearchivos() {/*cargamos los datos que tenemos en los archivos anteriormente llenados con la informacion de los 1000 usuarios*/
 
     ifstream fuser("usuarios.txt");
-    if (fuser.is_open()) {
-        char u[64], em[128], fn[11], fot[256], ciu[64], pa[64];
-        while (fuser.getline(u,64, ',')){
-            fuser.getline(em,128,',');
-            fuser.getline(fn,11,',');
-            fuser.getline(fot,256,',');
-            fuser.getline(ciu,64,',');
-            fuser.getline(pa,64,'\n');
+    if (fuser.is_open()) {/*si el archivo abre ingrese al condicional*/
+        char u[64], em[128], fn[11], fot[256], ciu[64], pa[64];/*le asignamos arreglos a los diferentes variablos como lo son usuario,email,
+                                                    fecha nacimiento,ruta foto ,ciudad,pais*/
+        while (fuser.getline(u,64, ',')){/*extrae la informacion y la guarda en la variable u con un maximo de caracteres de 64 lo extrae hasta
+                                        la primera coma*/
+            fuser.getline(em,128,',');/*realiza lo mismo extrae la informacion siguiente la guarda en la variable hasta la proxima coma*/
+            fuser.getline(fn,11,',');/*realiza lo mismo extrae la informacion siguiente la guarda en la variable hasta la proxima coma*/
+            fuser.getline(fot,256,',');/*realiza lo mismo extrae la informacion siguiente la guarda en la variable hasta la proxima coma*/
+            fuser.getline(ciu,64,',');/*realiza lo mismo extrae la informacion siguiente la guarda en la variable hasta la proxima coma*/
+            fuser.getline(pa,64,'\n');/*realiza lo mismo extrae la informacion siguiente la guarda en la variable hasta el proximo salto de linea*/
 
-            usuario userobj(u, em,fn,fot,ciu,pa);
-            registrarusuario(userobj);
+            usuario userobj(u, em,fn,fot,ciu,pa);/*tomamos los datos de un usuario i  */
+            registrarusuario(userobj);/*registramos el usuario que tomamos anterior mente y lo registramos en el metodo registrarusuario*/
         }
         fuser.close();
     }
 
 
-    ifstream frel ("relaciones.txt");
+    ifstream frel ("relaciones.txt");/*extraemos la informacion de relaciones txt en la cual se almacenan las amistades existentes*/
     if (frel.is_open()) {
-        char u1[64], u2[64];
-        while (frel.getline(u1,64,',')) {
-            frel.getline(u2,64,'\n');
-            int id1 = buscaridporusername(u1);
-            int id2 = buscaridporusername(u2);
-            if (id1 != -1 && id2 != -1) {
-                estableceramistad(id1, id2);
+        char u1[64], u2[64];/*creamos las variables con los arreglo para los usuarios pertinentes que seran extraidos de el documento txt*/
+        while (frel.getline(u1,64,',')) {/*le asignamos a la variable u1 el primer usuario con un maximo de 64 caracteres y hasta la primera coma*/
+            frel.getline(u2,64,'\n');/*le asignamos a la variable u2 el segundo usuario con un maximo de 64 caracteres y hasta el salto de linea*/
+            int id1 = buscaridporusername(u1);/*buscamos el id del usuario y lo asignamos a la variable id1*/
+            int id2 = buscaridporusername(u2);/*buscamos el id del segundo usuario y lo asignamos a la variable id2*/
+            if (id1 != -1 && id2 != -1) {/*si id1 es diferente de -1 y id2 es diferente de -1 */
+                estableceramistad(id1, id2);/*establecer amistad*/
             }
         }
         frel.close();
@@ -172,10 +193,11 @@ void redsocial ::cargardatosdesdearchivos() {
 
     ifstream falb ("albumes.txt");
     if (falb.is_open()) {
-        char owner[64], nomalb[64], rstorage[256], privstr[10];
+        char prop[64], nomalb[64], rstorage[256], privstr[10];/*creamos las variables para propietario de el album , nombre del album , ruta de almacenamiento
+                                                            privacidad del album , ruta de la foto , fecha de la foto , tamaño de la foto y cantidad de likes*/
         char rfoto [256], ffoto[11], tamstr [15], likesstr[15];
 
-        while (falb.getline(owner,64,',')) {
+        while (falb.getline(prop,64,',')) {
             falb.getline(nomalb, 64, ',');
             falb.getline(rstorage,256,',');
             falb.getline(privstr,10,',');
@@ -184,7 +206,7 @@ void redsocial ::cargardatosdesdearchivos() {
             falb.getline(tamstr,15,',');
             falb.getline(likesstr, 15, '\n');
 
-            int idowner = buscaridporusername(owner);
+            int idowner = buscaridporusername(prop);
             if (idowner !=-1) {
                 usuario& user = usuarios[idowner];
                 int priv = atoi(privstr);
@@ -259,8 +281,8 @@ void redsocial::guardardatosenarchivo() {
 
     ofstream frel("relaciones.txt");
     if (frel.is_open()) {
-        for (int i = 0; i< totalusuarios; ++i) {
-            for (int j = i +1; j< totalusuarios; ++j) {
+        for (int i = 0; i< usuarios.gettamaño(); ++i) {
+            for (int j = i +1; j< usuarios.gettamaño(); ++j) {
                 if (matrizadyacencia [i][j] == 1) {
                     frel << usuarios[i].getusername()<< ","
                          << usuarios[j].getusername() << "\n";
